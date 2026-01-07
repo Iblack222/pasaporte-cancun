@@ -15,13 +15,16 @@ body{
     justify-content:center;
     align-items:center;
     min-height:100vh;
+    overflow:hidden;
 }
 
 /* CONTENEDOR */
 .passport{
-    width:390px;
-    height:560px;
-    perspective:1400px;
+    width:90vw;
+    max-width:380px;
+    height:85vh;
+    max-height:560px;
+    perspective:1200px;
 }
 
 /* LIBRO */
@@ -31,20 +34,19 @@ body{
     position:relative;
 }
 
-/* PAGINAS */
+/* PÁGINAS */
 .page{
     position:absolute;
     width:100%;
     height:100%;
     background:#f7f4ef;
-    border-radius:12px;
-    box-shadow:0 25px 50px rgba(0,0,0,.4);
-    padding:30px;
+    border-radius:14px;
+    box-shadow:0 15px 40px rgba(0,0,0,.4);
+    padding:20px;
     box-sizing:border-box;
     backface-visibility:hidden;
     transform-origin:left;
     transition:transform 1s ease;
-    
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -61,67 +63,39 @@ body{
 
 .cover h1{
     font-family:'Cinzel', serif;
-    font-size:36px;
-    letter-spacing:6px;
-    margin-bottom:20px;
+    font-size:clamp(26px, 6vw, 34px);
+    letter-spacing:4px;
+    margin-bottom:15px;
 }
 
 .cover p{
-    font-size:18px;
-    letter-spacing:2px;
+    font-size:clamp(14px, 4vw, 18px);
 }
 
 /* DATOS */
-.data{
-    z-index:4;
-    font-family:'Playfair Display', serif;
-}
-
-.data h2{
-    font-size:30px;
-    margin-bottom:30px;
-}
-
-.data p{
-    font-size:20px;
-    margin:12px 0;
-}
+.data{ z-index:4; font-family:'Playfair Display', serif; }
+.data h2{ font-size:clamp(22px,5vw,30px); margin-bottom:20px; }
+.data p{ font-size:clamp(16px,4vw,20px); margin:8px 0; }
 
 /* SELLOS */
-.stamps{
-    z-index:3;
-}
-
-.stamps h2{
-    font-size:32px;
-    margin-bottom:20px;
-}
+.stamps{ z-index:3; }
+.stamps h2{ font-size:clamp(24px,6vw,32px); }
 
 .stamp{
-    font-size:18px;
-    padding:18px 25px;
+    font-size:clamp(14px,4vw,18px);
+    padding:14px 20px;
     border:3px dashed #b00;
     color:#b00;
-    margin:15px;
-    transform:rotate(-12deg) scale(0);
+    margin:10px;
+    transform:rotate(-10deg) scale(0);
     animation:stamp 1s forwards;
-    animation-delay:.8s;
+    animation-delay:.6s;
 }
 
 /* MAPA */
-.map{
-    z-index:2;
-}
-
-.map h2{
-    font-size:30px;
-    margin-bottom:25px;
-}
-
-.plane{
-    font-size:40px;
-    animation:fly 3s infinite linear;
-}
+.map{ z-index:2; }
+.map h2{ font-size:clamp(22px,5vw,30px); }
+.plane{ font-size:clamp(30px,8vw,42px); animation:fly 3s infinite linear; }
 
 /* DESTINO */
 .destination{
@@ -131,53 +105,68 @@ body{
 }
 
 .destination h2{
-    font-size:38px;
-    margin-bottom:20px;
+    font-size:clamp(26px,7vw,38px);
+    margin-bottom:15px;
 }
 
 .destination p{
-    font-size:20px;
-    line-height:1.5;
+    font-size:clamp(16px,4vw,20px);
+    line-height:1.4;
 }
 
-/* BOTON */
-button{
-    position:absolute;
-    bottom:25px;
-    padding:12px 30px;
+/* BOTONES */
+button, .link-btn{
+    width:80%;
+    max-width:260px;
+    padding:14px;
     font-size:16px;
     border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+button{
     background:#0b3c6d;
     color:white;
-    cursor:pointer;
-    border-radius:30px;
+    margin-top:auto;
+}
+
+.link-btn{
+    background:#ffcc00;
+    color:#003366;
+    font-weight:bold;
+    text-decoration:none;
+    margin-top:15px;
 }
 
 /* ANIMACIONES */
 @keyframes stamp{
-    to{ transform:rotate(-12deg) scale(1); }
+    to{ transform:rotate(-10deg) scale(1); }
 }
 
 @keyframes fly{
-    from{ transform:translateX(-140px); }
-    to{ transform:translateX(140px); }
+    from{ transform:translateX(-120px); }
+    to{ transform:translateX(120px); }
 }
 </style>
 </head>
 
 <body>
 
+<!-- SONIDOS -->
+<audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1104.mp3"></audio>
+<audio id="stampSound" src="https://assets.mixkit.co/sfx/preview/mixkit-quick-lock-sound-2854.mp3"></audio>
+<audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+
 <div class="passport">
 <div class="book">
 
-    <!-- PORTADA -->
     <div class="page cover" id="p1">
         <h1>PASAPORTE</h1>
         <p>A UN VIAJE INOLVIDABLE</p>
         <button onclick="next(1)">Abrir</button>
     </div>
 
-    <!-- DATOS -->
     <div class="page data" id="p2">
         <h2>Datos del Viaje</h2>
         <p><strong>Pasajeros</strong></p>
@@ -187,39 +176,48 @@ button{
         <button onclick="next(2)">Siguiente</button>
     </div>
 
-    <!-- SELLOS -->
     <div class="page stamps" id="p3">
         <h2>SELLOS</h2>
         <div class="stamp">✔ APROBADO</div>
         <div class="stamp">✈ LISTOS PARA VIAJAR</div>
-        <button onclick="next(3)">Continuar</button>
+        <button onclick="next(3, true)">Continuar</button>
     </div>
 
-    <!-- MAPA -->
     <div class="page map" id="p4">
         <h2>Calculando el Destino</h2>
         <div class="plane">✈️</div>
         <button onclick="next(4)">Ver destino</button>
     </div>
 
-    <!-- DESTINO -->
     <div class="page destination" id="p5">
-        <h2>🌴 CANCÚN 🌮🇲🇽</h2>
+        <h2>🌴 CANCÚN 🇲🇽</h2>
         <p>
             Este viaje es un regalo<br>
             con todo nuestro amor.<br><br>
             ¡Se lo merecen!
         </p>
+        <a class="link-btn" href="https://www.booking.com/Share-qfQgBm" target="_blank">
+            Ver alojamiento 🏨
+        </a>
     </div>
 
 </div>
 </div>
 
 <script>
-function next(n){
+function next(n, stamp=false){
+    document.getElementById("flipSound").play();
     document.getElementById("p"+n).style.transform = "rotateY(-180deg)";
+
+    if(stamp){
+        setTimeout(()=>document.getElementById("stampSound").play(),600);
+    }
+    if(n===4){
+        setTimeout(()=>document.getElementById("successSound").play(),800);
+    }
 }
 </script>
 
 </body>
 </html>
+
