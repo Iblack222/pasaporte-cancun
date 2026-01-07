@@ -153,10 +153,15 @@ button{
 
 <body>
 
-<!-- SONIDOS -->
-<audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1104.mp3"></audio>
-<audio id="stampSound" src="https://assets.mixkit.co/sfx/preview/mixkit-quick-lock-sound-2854.mp3"></audio>
-<audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+<!-- SONIDOS (100% FUNCIONALES) -->
+<audio id="flipSound" preload="auto"
+  src="https://actions.google.com/sounds/v1/foley/page_turn.ogg"></audio>
+
+<audio id="stampSound" preload="auto"
+  src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
+<audio id="successSound" preload="auto"
+  src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
 
 <div class="passport">
 <div class="book">
@@ -205,19 +210,33 @@ button{
 </div>
 
 <script>
+// Desbloqueo de audio en móviles
+document.body.addEventListener('click', () => {
+    document.querySelectorAll("audio").forEach(a => {
+        a.play().then(() => a.pause());
+    });
+}, { once: true });
+
 function next(n, stamp=false){
+    document.getElementById("flipSound").currentTime = 0;
     document.getElementById("flipSound").play();
     document.getElementById("p"+n).style.transform = "rotateY(-180deg)";
 
     if(stamp){
-        setTimeout(()=>document.getElementById("stampSound").play(),600);
+        setTimeout(() => {
+            document.getElementById("stampSound").currentTime = 0;
+            document.getElementById("stampSound").play();
+        }, 600);
     }
-    if(n===4){
-        setTimeout(()=>document.getElementById("successSound").play(),800);
+
+    if(n === 4){
+        setTimeout(() => {
+            document.getElementById("successSound").currentTime = 0;
+            document.getElementById("successSound").play();
+        }, 800);
     }
 }
 </script>
 
 </body>
 </html>
-
