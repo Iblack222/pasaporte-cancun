@@ -16,15 +16,16 @@ body{
     align-items:center;
     min-height:100vh;
     overflow:hidden;
+    font-size:18px;
 }
 
 /* CONTENEDOR */
 .passport{
-    width:90vw;
-    max-width:380px;
-    height:85vh;
-    max-height:560px;
-    perspective:1200px;
+    width:94vw;
+    max-width:400px;
+    height:88vh;
+    max-height:620px;
+    perspective:1600px;
 }
 
 /* LIBRO */
@@ -34,24 +35,54 @@ body{
     position:relative;
 }
 
+.book::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.25);
+    border-radius:16px;
+    transform:translateX(10px);
+    z-index:0;
+}
+
 /* PÁGINAS */
 .page{
     position:absolute;
     width:100%;
     height:100%;
     background:#f7f4ef;
-    border-radius:14px;
-    box-shadow:0 15px 40px rgba(0,0,0,.4);
-    padding:20px;
+    border-radius:16px;
+    padding:26px;
     box-sizing:border-box;
     backface-visibility:hidden;
-    transform-origin:left;
-    transition:transform 1s ease;
+    transform-origin:left center;
+    transition:transform 1.2s cubic-bezier(.4,0,.2,1);
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
+    box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,.05),
+        0 15px 40px rgba(0,0,0,.45);
+}
+
+/* SOMBRA PAPEL */
+.page::after{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    width:80px;
+    height:100%;
+    background:linear-gradient(to left, rgba(0,0,0,.35), transparent);
+    opacity:0;
+    transition:.6s;
+}
+
+.page[style*="rotateY(-180deg)"]::after{
+    opacity:1;
 }
 
 /* PORTADA */
@@ -63,39 +94,104 @@ body{
 
 .cover h1{
     font-family:'Cinzel', serif;
-    font-size:clamp(26px, 6vw, 34px);
+    font-size:clamp(34px, 9vw, 44px);
     letter-spacing:4px;
-    margin-bottom:15px;
+    margin-bottom:14px;
 }
 
 .cover p{
-    font-size:clamp(14px, 4vw, 18px);
+    font-size:clamp(18px, 5vw, 22px);
+    line-height:1.4;
+}
+
+/* ICONO PLANETA */
+.passport-icon{
+    width:230px;
+    max-width:90%;
+    margin:28px 0;
 }
 
 /* DATOS */
-.data{ z-index:4; font-family:'Playfair Display', serif; }
-.data h2{ font-size:clamp(22px,5vw,30px); margin-bottom:20px; }
-.data p{ font-size:clamp(16px,4vw,20px); margin:8px 0; }
+.data{
+    z-index:4;
+    font-family:'Playfair Display', serif;
+}
+
+.data h2{
+    font-size:clamp(28px,7vw,36px);
+    margin-bottom:24px;
+}
+
+.data p{
+    font-size:clamp(20px,5.5vw,24px);
+    margin:10px 0;
+    line-height:1.5;
+}
 
 /* SELLOS */
 .stamps{ z-index:3; }
-.stamps h2{ font-size:clamp(24px,6vw,32px); }
+
+.stamps h2{
+    font-size:clamp(30px,8vw,38px);
+    margin-bottom:18px;
+}
 
 .stamp{
-    font-size:clamp(14px,4vw,18px);
-    padding:14px 20px;
-    border:3px dashed #b00;
+    font-size:clamp(18px,5vw,22px);
+    padding:18px 26px;
+    border:3px solid #b00;
+    border-radius:8px;
     color:#b00;
-    margin:10px;
-    transform:rotate(-10deg) scale(0);
-    animation:stamp 1s forwards;
-    animation-delay:.6s;
+    margin:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+    box-shadow:0 0 0 2px rgba(176,0,0,.25) inset;
+    transform:rotate(-12deg) scale(0);
+    animation:stamp .8s cubic-bezier(.2,1.4,.4,1) forwards;
 }
 
 /* MAPA */
 .map{ z-index:2; }
-.map h2{ font-size:clamp(22px,5vw,30px); }
-.plane{ font-size:clamp(30px,8vw,42px); animation:fly 3s infinite linear; }
+
+.map h2{
+    font-size:clamp(26px,7vw,34px);
+}
+
+.flight-path{
+    position:relative;
+    width:100%;
+    height:140px;
+    margin:26px 0;
+}
+
+.flight-path path{
+    fill:none;
+    stroke:#999;
+    stroke-width:2;
+    stroke-dasharray:6;
+}
+
+.plane{
+    position:absolute;
+    top:45%;
+    left:0;
+    font-size:clamp(36px,9vw,48px);
+    animation:flyPath 3s infinite ease-in-out;
+}
+
+/* SELLO FECHA */
+.date-stamp{
+    margin-top:18px;
+    padding:14px 26px;
+    border:3px solid #1b5e20;
+    border-radius:10px;
+    color:#1b5e20;
+    font-size:clamp(18px,5vw,22px);
+    font-weight:bold;
+    letter-spacing:2px;
+    transform:rotate(-8deg) scale(0);
+    animation:stamp .9s cubic-bezier(.2,1.4,.4,1) forwards;
+}
 
 /* DESTINO */
 .destination{
@@ -105,24 +201,25 @@ body{
 }
 
 .destination h2{
-    font-size:clamp(26px,7vw,38px);
-    margin-bottom:15px;
+    font-size:clamp(32px,8vw,42px);
+    margin-bottom:18px;
 }
 
 .destination p{
-    font-size:clamp(16px,4vw,20px);
-    line-height:1.4;
+    font-size:clamp(20px,5.5vw,24px);
+    line-height:1.6;
 }
 
 /* BOTONES */
 button, .link-btn{
-    width:80%;
-    max-width:260px;
-    padding:14px;
-    font-size:16px;
+    width:90%;
+    max-width:280px;
+    padding:18px;
+    font-size:clamp(18px,5vw,22px);
     border:none;
-    border-radius:30px;
+    border-radius:40px;
     cursor:pointer;
+    transition:.3s ease;
 }
 
 button{
@@ -136,38 +233,46 @@ button{
     color:#003366;
     font-weight:bold;
     text-decoration:none;
-    margin-top:15px;
+    margin-top:18px;
+}
+
+button:hover, .link-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 26px rgba(0,0,0,.35);
 }
 
 /* ANIMACIONES */
 @keyframes stamp{
-    to{ transform:rotate(-10deg) scale(1); }
+    to{ transform:rotate(-8deg) scale(1); }
 }
 
-@keyframes fly{
-    from{ transform:translateX(-120px); }
-    to{ transform:translateX(120px); }
+@keyframes flyPath{
+    0%{ transform:translateX(0) rotate(10deg); }
+    50%{ transform:translateX(140px) rotate(-5deg); }
+    100%{ transform:translateX(280px) rotate(10deg); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- SONIDOS (100% FUNCIONALES) -->
-<audio id="flipSound" preload="auto"
-  src="https://actions.google.com/Sounds/v1/cartoon/pop.ogg"></audio>
-
-<audio id="stampSound" preload="auto"
-  src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
-
-<audio id="successSound" preload="auto"
-  src="https://pixabay.com/es/music/lat%c3%adn-urbano-latin-latino-mexican-music-398428/"></audio>
+<audio id="flipSound" preload="auto" src="https://actions.google.com/sounds/v1/doors/deadbolt_lock.ogg?hl=es-419"></audio>
+<audio id="stampSound" preload="auto" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<audio id="successSound" preload="auto" src="https://actions.google.com/sounds/v1/cartoon/punchline_drum.ogg?hl=es-419"></audio>
 
 <div class="passport">
 <div class="book">
 
     <div class="page cover" id="p1">
         <h1>PASAPORTE</h1>
+
+        <svg class="passport-icon" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#d4af37" stroke-width="5"/>
+            <path d="M6 50h88M50 6v88" stroke="#d4af37" stroke-width="3"/>
+            <ellipse cx="50" cy="50" rx="42" ry="18" fill="none" stroke="#d4af37" stroke-width="3"/>
+            <ellipse cx="50" cy="50" rx="18" ry="42" fill="none" stroke="#d4af37" stroke-width="3"/>
+        </svg>
+
         <p>A UN VIAJE INOLVIDABLE</p>
         <button onclick="next(1)">Abrir</button>
     </div>
@@ -190,7 +295,16 @@ button{
 
     <div class="page map" id="p4">
         <h2>Calculando el Destino</h2>
-        <div class="plane">✈️</div>
+        <div class="flight-path">
+            <svg viewBox="0 0 300 100">
+                <path d="M10 50 Q150 10 290 50"/>
+            </svg>
+            <div class="plane">✈️</div>
+        </div>
+
+        <!-- SELLO DE FECHA -->
+        <div class="date-stamp">20 – 24 OCTUBRE 2025</div>
+
         <button onclick="next(4)">Ver destino</button>
     </div>
 
@@ -210,7 +324,6 @@ button{
 </div>
 
 <script>
-// Desbloqueo de audio en móviles
 document.body.addEventListener('click', () => {
     document.querySelectorAll("audio").forEach(a => {
         a.play().then(() => a.pause());
@@ -218,21 +331,21 @@ document.body.addEventListener('click', () => {
 }, { once: true });
 
 function next(n, stamp=false){
-    document.getElementById("flipSound").currentTime = 0;
-    document.getElementById("flipSound").play();
+    flipSound.currentTime = 0;
+    flipSound.play();
     document.getElementById("p"+n).style.transform = "rotateY(-180deg)";
 
     if(stamp){
         setTimeout(() => {
-            document.getElementById("stampSound").currentTime = 0;
-            document.getElementById("stampSound").play();
+            stampSound.currentTime = 0;
+            stampSound.play();
         }, 600);
     }
 
     if(n === 4){
         setTimeout(() => {
-            document.getElementById("successSound").currentTime = 0;
-            document.getElementById("successSound").play();
+            successSound.currentTime = 0;
+            successSound.play();
         }, 800);
     }
 }
@@ -240,4 +353,3 @@ function next(n, stamp=false){
 
 </body>
 </html>
-
